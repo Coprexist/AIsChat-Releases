@@ -60,9 +60,11 @@ jobs:
           npm ci
           npm run build
 
-      - name: Copy spec and source files
+      - name: Copy packaging files
         shell: bash
         run: |
+          cp run_packaged.py source/
+          cp server_core.py source/
           cp AIsChat.spec source/
           cp installer.nsi source/
           cp LICENSE.txt source/
@@ -130,9 +132,11 @@ jobs:
           npm ci
           npm run build
 
-      - name: Copy files
+      - name: Copy packaging files
         shell: bash
         run: |
+          cp run_packaged.py source/
+          cp server_core.py source/
           cp -r gui_app source/
           mkdir -p source/frontend/public
           cp frontend/public/logo-transparent.* source/frontend/public/ 2>/dev/null || true
@@ -213,9 +217,12 @@ jobs:
           npm ci
           npm run build
 
-      - name: Copy files
+      - name: Copy packaging files
         shell: bash
-        run: cp -r gui_app source/
+        run: |
+          cp run_packaged.py source/
+          cp server_core.py source/
+          cp -r gui_app source/
 
       - name: PyInstaller (directory mode)
         working-directory: source
