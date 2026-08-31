@@ -4,7 +4,6 @@ venv/
 .venv/
 build/
 dist/
-*.spec
 .vscode/
 .idea/
 .DS_Store
