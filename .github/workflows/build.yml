@@ -60,6 +60,10 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install NSIS
+        shell: bash
+        run: choco install nsis -y
+
       - name: Copy packaging files
         shell: bash
         run: |
@@ -78,8 +82,6 @@ jobs:
         shell: bash
         working-directory: source
         run: |
-          "/c/Program Files (x86)/NSIS/makensis.exe" installer.nsi || \
-          "/c/Program Files/NSIS/makensis.exe" installer.nsi || \
           makensis installer.nsi
 
       - name: Upload artifact
