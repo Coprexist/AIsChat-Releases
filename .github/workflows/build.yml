@@ -1,13 +1,16 @@
 name: Build & Release
 
 on:
+  push:
+    tags:
+      - 'v*'
   repository_dispatch:
     types: [release]
   workflow_dispatch:
     inputs:
       tag:
         description: 'Release tag（如 v0.4.1）'
-        required: true
+        required: false
 
 env:
   MAIN_REPO: Coprexist/AIsChat
@@ -37,8 +40,10 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             echo "tag=${{ github.event.client_payload.tag }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag || github.ref_name }}" >> $GITHUB_OUTPUT
           else
-            echo "tag=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Checkout main repo
@@ -129,8 +134,10 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             echo "tag=${{ github.event.client_payload.tag }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag || github.ref_name }}" >> $GITHUB_OUTPUT
           else
-            echo "tag=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Download artifacts
